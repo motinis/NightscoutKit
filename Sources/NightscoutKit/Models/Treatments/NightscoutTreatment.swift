@@ -24,6 +24,7 @@ public enum TreatmentType: String {
     case note = "Note"
     case sensorStart = "Sensor Start"
     case siteChange = "Site Change"
+    case exercise = "Exercise"
 
     public var classType: NightscoutTreatment.Type {
         switch self {
@@ -39,6 +40,8 @@ public enum TreatmentType: String {
             return MealBolusNightscoutTreatment.self
         case .bloodGlucoseCheck:
             return BGCheckNightscoutTreatment.self
+        case .exercise:
+            return ExerciseTreatment.self
         case .note:
             return NoteNightscoutTreatment.self
         default:
