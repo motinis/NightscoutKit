@@ -22,13 +22,14 @@ public struct LoopStatus {
     public let automaticDoseRecommendation: AutomaticDoseRecommendation?
     public let recommendedBolus: Double?
     public let enacted: LoopEnacted?
+    public let autoBolusCarbsActive: Bool?
     public let rileylinks: [RileyLinkStatus]?
     public let failureReason: String?
     public let currentCorrectionRange: CorrectionRange?
     public let forecastError: ForecastError?
     public let testingDetails: [String: Any]?
 
-    public init(name: String, version: String, timestamp: Date, iob: IOBStatus? = nil, cob: COBStatus? = nil, predicted: PredictedBG? = nil, automaticDoseRecommendation: AutomaticDoseRecommendation? = nil, recommendedBolus: Double? = nil, enacted: LoopEnacted? = nil, rileylinks: [RileyLinkStatus]? = nil, failureReason: String? = nil, currentCorrectionRange: CorrectionRange? = nil, forecastError: ForecastError? = nil, testingDetails: [String: Any]? = nil) {
+    public init(name: String, version: String, timestamp: Date, iob: IOBStatus? = nil, cob: COBStatus? = nil, predicted: PredictedBG? = nil, automaticDoseRecommendation: AutomaticDoseRecommendation? = nil, recommendedBolus: Double? = nil, enacted: LoopEnacted? = nil, autoBolusCarbsActive: Bool? = nil, rileylinks: [RileyLinkStatus]? = nil, failureReason: String? = nil, currentCorrectionRange: CorrectionRange? = nil, forecastError: ForecastError? = nil, testingDetails: [String: Any]? = nil) {
         self.name = name
         self.version = version
         self.timestamp = timestamp
@@ -38,6 +39,7 @@ public struct LoopStatus {
         self.automaticDoseRecommendation = automaticDoseRecommendation
         self.recommendedBolus = recommendedBolus
         self.enacted = enacted
+        self.autoBolusCarbsActive = autoBolusCarbsActive
         self.rileylinks = rileylinks
         self.failureReason = failureReason
         self.currentCorrectionRange = currentCorrectionRange
@@ -74,6 +76,10 @@ public struct LoopStatus {
         
         if let enacted = enacted {
             rval["enacted"] = enacted.dictionaryRepresentation
+        }
+        
+        if let autoBolusCarbsActive = autoBolusCarbsActive {
+            rval["autoBolusCarbsActive"] = autoBolusCarbsActive
         }
         
         if let failureReason = failureReason {
@@ -144,6 +150,8 @@ public struct LoopStatus {
         } else {
             enacted = nil
         }
+        
+        autoBolusCarbsActive = rawValue["autoBolusCarbsActive"] as? Bool
 
         if let rileylinksRaw = rawValue["rileylinks"] as? [RileyLinkStatus.RawValue] {
             rileylinks = rileylinksRaw.compactMap { RileyLinkStatus(rawValue: $0 ) }
