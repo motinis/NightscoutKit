@@ -16,13 +16,15 @@ public struct TemporaryScheduleOverride {
     public let symbol: String?
     public let duration: TimeInterval
     public let name: String?
+    public let autoBolusCarbsActive: Bool?
 
-    public init(duration: TimeInterval, targetRange: ClosedRange<Double>?, insulinNeedsScaleFactor: Double?, symbol: String?, name: String?) {
+    public init(duration: TimeInterval, targetRange: ClosedRange<Double>?, insulinNeedsScaleFactor: Double?, symbol: String?, name: String?, autoBolusCarbsActive: Bool? = nil) {
         self.targetRange = targetRange
         self.insulinNeedsScaleFactor = insulinNeedsScaleFactor
         self.symbol = symbol
         self.duration = duration
         self.name = name
+        self.autoBolusCarbsActive = autoBolusCarbsActive
     }
 
     public var dictionaryRepresentation: [String: Any] {
@@ -45,6 +47,10 @@ public struct TemporaryScheduleOverride {
         if let name = name {
             rval["name"] = name
         }
+        
+        if let autoBolusCarbsActive = autoBolusCarbsActive {
+            rval["autoBolusCarbsActive"] = autoBolusCarbsActive
+        }
 
         return rval
     }
@@ -63,5 +69,7 @@ public struct TemporaryScheduleOverride {
         symbol = rawValue["symbol"] as? String
         self.duration = duration
         name = rawValue["name"] as? String
+        
+        autoBolusCarbsActive = rawValue["autoBolusCarbsActive"] as? Bool
     }
 }
