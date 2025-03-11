@@ -19,14 +19,16 @@ public class OverrideTreatment: NightscoutTreatment {
     let correctionRange: ClosedRange<Double>?  // mg/dL
     let insulinNeedsScaleFactor: Double?
     let duration: Duration
+    let autoBolusCarbsActive: Bool?
     let reason: String
     let remoteAddress: String?
 
-    public init(startDate: Date, enteredBy: String, reason: String, duration: Duration, correctionRange: ClosedRange<Double>?, insulinNeedsScaleFactor: Double?, remoteAddress: String? = nil, id: String? = nil) {
+    public init(startDate: Date, enteredBy: String, reason: String, duration: Duration, correctionRange: ClosedRange<Double>?, insulinNeedsScaleFactor: Double?, autoBolusCarbsActive: Bool? = nil, remoteAddress: String? = nil, id: String? = nil) {
         self.reason = reason
         self.duration = duration
         self.correctionRange = correctionRange
         self.insulinNeedsScaleFactor = insulinNeedsScaleFactor
+        self.autoBolusCarbsActive = autoBolusCarbsActive
         self.remoteAddress = remoteAddress
         super.init(timestamp: startDate, enteredBy: enteredBy, id: id, eventType: .temporaryOverride)
     }
@@ -54,6 +56,7 @@ public class OverrideTreatment: NightscoutTreatment {
         }
 
         insulinNeedsScaleFactor = entry["insulinNeedsScaleFactor"] as? Double
+        autoBolusCarbsActive = entry["autoBolusCarbsActive"] as? Bool
         remoteAddress = entry["remoteAddress"] as? String
 
         super.init(entry)
@@ -74,6 +77,10 @@ public class OverrideTreatment: NightscoutTreatment {
 
         if let correctionRange = correctionRange {
             rval["correctionRange"] = [correctionRange.lowerBound, correctionRange.upperBound]
+        }
+        
+        if let autoBolusCarbsActive = autoBolusCarbsActive {
+            rval["autoBolusCarbsActive"] = autoBolusCarbsActive
         }
 
         return rval
