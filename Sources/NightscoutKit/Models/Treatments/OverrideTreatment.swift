@@ -95,3 +95,16 @@ public class OverrideTreatment: NightscoutTreatment {
         }
     }
 }
+
+// this was moved over from NightscoutService
+extension OverrideTreatment: Equatable {
+    public static func == (lhs: OverrideTreatment, rhs: OverrideTreatment) -> Bool {
+        return lhs.timestamp == rhs.timestamp &&
+        lhs.endDate == rhs.endDate &&
+        lhs.correctionRange == rhs.correctionRange &&
+        lhs.insulinNeedsScaleFactor == rhs.insulinNeedsScaleFactor &&
+        lhs.autoBolusCarbsActive == rhs.autoBolusCarbsActive &&
+        lhs.reason == rhs.reason &&
+        lhs.remoteAddress == rhs.remoteAddress
+    }
+}
